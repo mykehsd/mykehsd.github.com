@@ -1,6 +1,7 @@
 ---
 layout: default
 title: Magento Deadlocks
+tags: <i class="icon-tag"></i>magento <i class="icon-tag"></i>deadlocks
 ---
 <p>If your using memcache as your caching layer in magento, but have this snippit in your etc/local.xml</p>
 <blockquote>

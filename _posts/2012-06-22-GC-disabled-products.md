@@ -1,6 +1,7 @@
 ---
 layout: default
 title: Magento/GoogleCheckout and Disabled products
+tags: <i class="icon-tag"></i>magento <i class="icon-tag"></i>bug <i class="icon-tag"></i>googlecheckout
 ---
 <p>If you have a high rate of orders, or customers that take their time finalizing checkout, then you might have noticed an odd problem with your Sales &gt; Orders. &nbsp;If a customer adds product XYZ into their cart and proceeds to Google Checkout, then a product is deactivated from the magento system, we have no way of stopping the order flow for that customer - At least not a reliable one. &nbsp;What happens is an order created in the magento system with no products and $0 due. &nbsp;The order looks totally find for the customer however you'll never be able to cancel the order based on the canCancel() method in Mage_Sales_Model_Order. &nbsp;</p>
 <p>The solution is to watch the &lt;checkout_submit_all_after&gt; event and immediately cancel orders as they are created. &nbsp;You could override the&nbsp;Mage_GoogleCheckout_Model_Api_Xml_Callback::_responseNewOrderNotification() method, however I tried to be as non-obtrusive as I can with magento core code. &nbsp;</p>
