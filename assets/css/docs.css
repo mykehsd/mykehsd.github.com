@@ -275,6 +275,9 @@ hr.soften {
   line-height: 1;
   letter-spacing: -1px;
 }
+.marketing .span4 {
+  text-align: center;
+}
 .marketing h2 {
   font-weight: 200;
   margin-bottom: 5px;
@@ -284,7 +287,7 @@ hr.soften {
   line-height: 1.5;
 }
 .marketing .marketing-byline {
-  margin-bottom: 40px;
+  margin-bottom: 60px;
   font-size: 20px;
   font-weight: 300;
   line-height: 25px;
@@ -294,7 +297,17 @@ hr.soften {
   display: block;
   margin: 0 auto 30px;
 }
-
+.marketing .icon {
+}
+.marketing .icon-xlarge:before {
+  vertical-align: top;
+  font-size: 7.3333333333333333em;
+}
+.marketing i {
+  width: 62px;
+  height: 30px;
+  background: transparent;
+}
 
 
 /* Footer
