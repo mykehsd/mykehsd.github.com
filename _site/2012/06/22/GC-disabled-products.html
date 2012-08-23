@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title> Magento/GoogleCheckout and Disabled products |  webHines Consulting</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Le styles -->
+    <link href="/assets/css/bootstrap.css" rel="stylesheet">
+    <link href="/assets/fontawesome/css/font-awesome.css" rel="stylesheet">
+    <link href="/assets/css/bootstrap-responsive.css" rel="stylesheet">
+    <link href="/assets/css/docs.css" rel="stylesheet">
+    <link href="/assets/js/google-code-prettify/prettify.css" rel="stylesheet">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le fav and touch icons -->
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="assets/ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="assets/ico/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="assets/ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="assets/ico/apple-touch-icon-57-precomposed.png">
+
+    <script type="text/javascript">
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-30840647-1']);
+      _gaq.push(['_trackPageview']);
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+    </script>
+  </head>
+
+  <body data-spy="scroll" data-target=".bs-docs-sidebar">
+
+    <!-- Navbar
+    ================================================== -->
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="brand" href="./index.html">webHines</a>
+          <div class="nav-collapse collapse">
+            <ul class="nav">
+              <li class="active">
+                <a href="./index.html">About Us</a>
+              </li>
+              <li class="">
+                <a href="./blog.html">Blog</a>
+              </li>
+              <li class="">
+                <a href="./tech.html">Technologies</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+<div class="container">
+
+  <div class="marketing">
+
+    <h1>A new approach to web development.</h1>
+    <p class="marketing-byline">We believe in a straightforward and honest communication with our clients</p>
+
+    <hr class="soften">
+
+    <p>If you have a high rate of orders, or customers that take their time finalizing checkout, then you might have noticed an odd problem with your Sales &gt; Orders. &nbsp;If a customer adds product XYZ into their cart and proceeds to Google Checkout, then a product is deactivated from the magento system, we have no way of stopping the order flow for that customer - At least not a reliable one. &nbsp;What happens is an order created in the magento system with no products and $0 due. &nbsp;The order looks totally find for the customer however you'll never be able to cancel the order based on the canCancel() method in Mage_Sales_Model_Order. &nbsp;</p><p>The solution is to watch the &lt;checkout_submit_all_after&gt; event and immediately cancel orders as they are created. &nbsp;You could override the&nbsp;Mage_GoogleCheckout_Model_Api_Xml_Callback::_responseNewOrderNotification() method, however I tried to be as non-obtrusive as I can with magento core code. &nbsp;</p><p>&nbsp;</p><p>YourCustomModule/GoogleCheckout/etc/config.xml</p><blockquote>
+<p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&lt;events&gt;</p>
+<p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&lt;checkout_submit_all_after&gt;</p>
+<p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&lt;observers&gt;</p>
+<p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&lt;yourcustommodule_googlecheckout_observer&gt;</p>
+<p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&lt;type&gt;singleton&lt;/type&gt;</p>
+<p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&lt;class&gt;YourModule_GoogleCheckout_Model_Observer&lt;/class&gt;</p>
+<p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&lt;method&gt;observeForEmptyOrders&lt;/method&gt;</p>
+<p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&lt;yourcustommodule_googlecheckout_observer&gt;</p>
+<p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&lt;/observers&gt;</p>
+<p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&lt;/checkout_submit_all_after&gt;</p>
+<p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&lt;/events&gt;</p>
+</blockquote><p>&nbsp;</p><p>And in your Model/Observer.php class:</p><blockquote>
+<p>class FoxConnect_GoogleCheckout_Model_Observer</p>
+<p>{</p>
+<p>&nbsp;&nbsp; &nbsp;public function observeForEmptyOrders($observer) {</p>
+<p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;$order = $observer-&gt;getEvent()-&gt;getOrder();</p>
+<p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;if ($order-&gt;getPayment()-&gt;getMethod() != 'googlecheckout') &nbsp;return;</p>
+<p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;if (count($order-&gt;getAllItems()) == 0) {</p>
+<p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;$order-&gt;getPayment()-&gt;getMethodInstance()-&gt;cancel( $order-&gt;getPayment());</p>
+<p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;$order-&gt;setStatus( Mage_Sales_Model_Order::STATE_CANCELED );</p>
+<p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;$order-&gt;save();</p>
+<p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;}</p>
+<p>&nbsp;&nbsp; &nbsp;}</p>
+<p>}</p>
+</blockquote>
+
+  </div>
+
+</div>
+
+
+
+    <!-- Footer
+    ================================================== -->
+    <footer class="footer">
+      <div class="container">
+	<p>For more information, please <a href="mailto:myke@webhines.com">contact</a> Myke Hines for more information.</p>
+      </div>
+    </footer>
+
+
+
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+    <script src="assets/js/jquery.js"></script>
+    <script src="assets/js/google-code-prettify/prettify.js"></script>
+    <script src="assets/js/bootstrap-transition.js"></script>
+    <script src="assets/js/bootstrap-alert.js"></script>
+    <script src="assets/js/bootstrap-modal.js"></script>
+    <script src="assets/js/bootstrap-dropdown.js"></script>
+    <script src="assets/js/bootstrap-scrollspy.js"></script>
+    <script src="assets/js/bootstrap-tab.js"></script>
+    <script src="assets/js/bootstrap-tooltip.js"></script>
+    <script src="assets/js/bootstrap-popover.js"></script>
+    <script src="assets/js/bootstrap-button.js"></script>
+    <script src="assets/js/bootstrap-collapse.js"></script>
+    <script src="assets/js/bootstrap-carousel.js"></script>
+    <script src="assets/js/bootstrap-typeahead.js"></script>
+    <script src="assets/js/bootstrap-affix.js"></script>
+    <script src="assets/js/application.js"></script>
+
+  </body>
+</html>

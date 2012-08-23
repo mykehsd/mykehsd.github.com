@@ -1,0 +1,22 @@
+---
+layout: default
+title: Blog Entries
+---
+
+<section role="content">
+    <div class="row-fluid">
+      <div class="span10">
+        <table class="table table-striped">
+  	{% for post in site.posts %}
+          <tr>
+            <td>
+            <a href="{{ post.url }}">
+              <h4>{{ post.title }}</h4>
+            </a>
+          </td>
+          </tr>
+          {% endfor %}
+        </table>
+      </div>
+    </div>
+</section>
