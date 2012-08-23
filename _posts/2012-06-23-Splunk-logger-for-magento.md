@@ -1,7 +1,9 @@
 ---
 layout: default
 title: Splunk logger for your magento application
-tags: <i class="icon-tag"></i>splunk <i class="icon-tag"></i>magento
+tags: 
+- splunk
+- magento
 ---
 <p>Splunk is a great log management tool that can be a valuable resource for your magento deployment. You can send any type of content splunk and use it for historical analysis of sales data, catalog updates, systems interactions, api logging, etc. There are two ways to configure this interaction with splunk: #1) Have your splunk server listen on a port number that receives data. #2) Have splunk forwarders on every server that then relay the data. There's pro's and con's to each solution, however I think the easiest and most reliable is the first method. First we need to setup splunk to receive data over a port, navigate to the "Manager" section and find "Data inputs"</p>
 <p><img class="posterous_plugin_object posterous_plugin_object_image" src="http://getfile7.posterous.com/getfile/files.posterous.com/webhines/1hv0NfRz8bzVIYc5mduMRkf1BxKPkZaxDOKiB11LBHMBc8nmtPY4LqoSZHqb/Unknown-4.png.thumb100.jpg?content_part=SlL8sipoRJkhPgJjKuCR" alt="" width="100" height="100" /></p>

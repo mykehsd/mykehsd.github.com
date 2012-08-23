@@ -1,7 +1,10 @@
 ---
 layout: default
 title: Magento merged css/js file (CDN & Browser) cache busting.
-tags: <i class="icon-tag"></i>magento <i class="icon-tag"></i>cdn <i class="icon-tag"></i>cache
+tags: 
+- magento
+- cdn
+- cache
 ---
 <p>A client that uses magento on a CDN was having problems with releasing new code (specifically to CSS and JS files). &nbsp;When magento uses merged files it keeps the merged filename the same regardless of the contents of the file or release of code. &nbsp;This is especially nasty if you have a long TTL cache on client browsers. &nbsp;</p>
 <p>In our deployment process we maintain a release.txt file to ensure all of the frontend servers are running the exact release. &nbsp;We are going to use that file to increment our merged css/js files - however you could use something like a md5 checksum of the contents and append it to the file name. &nbsp;</p>

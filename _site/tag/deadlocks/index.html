@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title> Magento merged css/js file (CDN & Browser) cache busting. |  webHines Consulting</title>
+    <title> Posts Tagged &ldquo;deadlocks&rdquo; |  webHines Consulting</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
@@ -76,7 +76,63 @@
 
     <hr class="soften">
 
-    <p>A client that uses magento on a CDN was having problems with releasing new code (specifically to CSS and JS files). &nbsp;When magento uses merged files it keeps the merged filename the same regardless of the contents of the file or release of code. &nbsp;This is especially nasty if you have a long TTL cache on client browsers. &nbsp;</p><p>In our deployment process we maintain a release.txt file to ensure all of the frontend servers are running the exact release. &nbsp;We are going to use that file to increment our merged css/js files - however you could use something like a md5 checksum of the contents and append it to the file name. &nbsp;</p><p>Anyway, here's our solution:</p><p><iframe width='700' height='400' src='http://pastebin.com/embed_iframe.php?i=L7snsHLd' /></p><p>So as soon as a release is executed in our production environment, it immediately invalidates both the CDN and client side cache. &nbsp;We can also set a 365D TTL for client's browers to cache all CSS and JS since the filenames will change when an update happens. &nbsp;</p>
+    <h2 class="post_title">Posts Tagged &ldquo;deadlocks&rdquo;</h2>
+<ul>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <li class="archive_list">
+    <time style="color:#666;font-size:11px;" datetime='2012-06-22'>06/22/12</time> <a class="archive_list_article_link" href='/2012/06/22/Magento-Deadlocks.html'>Magento Deadlocks</a>
+    <p class="summary">
+    <ul class="tag_list">
+      
+      <li class="inline archive_list"><a class="tag_list_link" href="/tag/magento">magento</a></li>
+      
+      <li class="inline archive_list"><a class="tag_list_link" href="/tag/deadlocks">deadlocks</a></li>
+      
+    </ul>
+  </li>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+</ul>
+
 
   </div>
 
